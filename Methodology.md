@@ -60,10 +60,10 @@ so that `support` always means "for the proposal". `inverted` is taken as
 > kept alongside for transparency.
 >
 > *Validation:* for `25.026` (Nachhaltigkeitsinitiative) the oriented
-> `support_coalition` is **V** — matching your observation that the SVP was the
+> `support_coalition` is **V** — matching the observation that the SVP was the
 > only faction in favour, even though in the protocol they alone voted Nein.
 
-**Refining the exceptions with your `nr-pos`.** The `bill_is_initiative`
+**Refining the exceptions with `nr-pos`.** The `bill_is_initiative`
 heuristic is wrong only for the handful of initiatives parliament recommends
 *accepting* (and some counter-proposal constructions). Recompute orientation
 exactly with the Swissvotes recommendation:

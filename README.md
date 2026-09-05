@@ -16,11 +16,11 @@ python3 scrape_fraktionen.py              # builds the output CSVs (re-runnable;
 Outputs land in `output/`. Re-running `scrape_fraktionen.py` is cheap once the
 caches exist.
 
-## What you get (`output/`, each also as `.xlsx` with text-typed IDs)
+## Result: (`output/`, each also as `.xlsx` with text-typed IDs)
 
 | file | one row per | use |
 |---|---|---|
-| `fraktionen_long.csv`    | bill × fraction | tidy/long — easy to pivot or join back to your CSV |
+| `fraktionen_long.csv`    | bill × fraction | tidy/long — easy to pivot or join back to CSV |
 | `fraktionen_wide.csv`    | bill | one row per final vote, a column block per fraction (`<CODE>_yes/_no/_abstain/_absent`) |
 | `fraktionen_members.csv` | MP × bill | every individual vote (name, fraction, canton, decision) |
 | `fraktionen_report.csv`  | bill | status of each bill: `api`/`pdf`/`pdf_manual`/`ab`/`unavailable`, the vote ref(s), PDF URL(s), match note |
@@ -129,7 +129,7 @@ carry the official group name; PDF rows use the lookup in `parl_lib.py`.
 | `output/`              | the result CSV + xlsx files |
 
 The pipeline uses the CSV's **`dat-parl`** (final-vote date) as the primary key
-for matching PDFs, and auto-loads any PDFs you drop into `cache/neue pdfs/`.
+for matching PDFs, and auto-loads any PDFs dropped into `cache/neue pdfs/`.
 
 ## `gesch_nr` format
 

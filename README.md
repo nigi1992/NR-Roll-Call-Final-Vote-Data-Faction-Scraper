@@ -20,12 +20,12 @@ caches exist.
 
 | file | one row per | use |
 |---|---|---|
-| `fraktionen_long.csv`    | bill × fraction | tidy/long — easy to pivot or join back to CSV |
-| `fraktionen_wide.csv`    | bill | one row per final vote, a column block per fraction (`<CODE>_yes/_no/_abstain/_absent`) |
-| `fraktionen_members.csv` | MP × bill | every individual vote (name, fraction, canton, decision) |
+| `fraktionen_long.csv`    | bill × faction | tidy/long — easy to pivot or join back to CSV |
+| `fraktionen_wide.csv`    | bill | one row per final vote, a column block per faction (`<CODE>_yes/_no/_abstain/_absent`) |
+| `fraktionen_members.csv` | MP × bill | every individual vote (name, faction, canton, decision) |
 | `fraktionen_report.csv`  | bill | status of each bill: `api`/`pdf`/`pdf_manual`/`ab`/`unavailable`, the vote ref(s), PDF URL(s), match note |
 | `fraktionen_blocs_{long,wide}.csv` | bill (× bloc) | 7 stable blocs + **orientation** (support/oppose) + predictors `support_coalition`, `elite_cue_lr` — see `methodology.md` |
-| `fraktionen_summary.csv` | fraction | per-fraction yes-rate across all matched votes |
+| `fraktionen_summary.csv` | faction | per-faction yes-rate across all matched votes |
 
 `bill_is_initiative` / `roll_call_inverted` flag the votes where a parliamentary
 Ja means "recommend rejection" (so the roll call is inverted vs. support for the
@@ -53,7 +53,7 @@ vote).
 2. **Roll-call PDFs** (`build_index.py` → `cache/pdf_index.json`) — for the
    **46th legislature (Dec 1999 → Oct 2003)**, which the API does not cover.
    Downloading every `vote_<leg>_<ref>.pdf`, parse the member list, and
-   aggregate by fraction. The parser was validated to reproduce the official
+   aggregate by faction. The parser was validated to reproduce the official
    "Gesamt" totals exactly on 120+ PDFs (200/200 members each).
 
    The 1999–2002 PDFs hide the business number in a broken embedded font, so
@@ -64,7 +64,7 @@ vote).
 3. **Amtliches-Bulletin name-list pages** (`ab_parse.py`) — for **legislatures
    44–45 (1994–1999)**, which have no per-member roll-call PDFs online (they 404).
    The digitised AB "Schlussabstimmungen" pages list the members by name in each
-   direction; the parser resolves those names to fractions via a date-accurate
+   direction; the parser resolves those names to factions via a date-accurate
    OData roster and aggregates. Marked `source = "ab"`. See `methodology.md` §5
    for the parser, the re-vote handling, and the validation gate. Drop more AB
    pages into `cache/neue pdfs/kompliziert/` (`<archive-id>-<anr[,anr]>.pdf`) and
@@ -75,7 +75,7 @@ vote).
 The roll-call PDFs are only published online back to the **46th legislature
 (Winter session 1999)**; legislatures 44–45 (1991–1999) return 404 at
 `parlament.ch/poly/Abstimmung/<leg>/...`. Everything from **Dec 1999 onward** is
-covered by the API/PDF sources. For **1994–1999** the per-fraction tallies are
+covered by the API/PDF sources. For **1994–1999** the per-faction tallies are
 recovered from the Amtliches-Bulletin name-list pages (source `ab`, see above),
 page by page as they are collected. Bills whose **final vote predates roll-call
 voting (before 1994)** are genuinely unrecoverable and stay `unavailable` (the
@@ -101,10 +101,10 @@ was held in (`Schlussabstimmung`/`Vote final`/`Votazione finale`) and is
 sometimes empty, so the API path matches all three languages and falls back to
 the Nationalrat final-vote *date* (from `Resolution`) when the subject is blank.
 
-A `summary.py` script writes `output/fraktionen_summary.csv` — per-fraction
+A `summary.py` script writes `output/fraktionen_summary.csv` — per-faction
 Yes/No/Abstain/Absent totals and yes-rate across all matched final votes.
 
-## Fraction codes
+## faction codes
 
 The PDFs use short codes that change over the decades. 1999–2003: `C` (CVP),
 `S` (SP), `V` (SVP), `R` (FDP/Radikale), `L` (Liberale), `G` (Grüne),
@@ -119,8 +119,8 @@ carry the official group name; PDF rows use the lookup in `parl_lib.py`.
 | `parl_lib.py`          | shared library: polite throttled HTTP, the validated PDF parser, code/decision lookups |
 | `build_index.py`       | downloads & indexes the 1999–2003 roll-call PDFs (resumable; `--reparse` rebuilds from cache without re-downloading) |
 | `scrape_fraktionen.py` | the main pipeline: routes each bill API↔PDF↔AB and writes the output CSVs |
-| `ab_parse.py`          | Amtliches-Bulletin (leg 44/45) name-list parser → per-fraction tallies via a date-accurate OData roster (`run it standalone for a validation report`) |
-| `summary.py`           | per-fraction yes-rate summary → `output/fraktionen_summary.csv` |
+| `ab_parse.py`          | Amtliches-Bulletin (leg 44/45) name-list parser → per-faction tallies via a date-accurate OData roster (`run it standalone for a validation report`) |
+| `summary.py`           | per-faction yes-rate summary → `output/fraktionen_summary.csv` |
 | `blocs.py`             | 7 stable blocs + orientation + predictors → `output/fraktionen_blocs_{long,wide}.csv` (see `methodology.md`) |
 | `export_xlsx.py`       | `.xlsx` copies of every output with `gesch_nr`/IDs as text |
 | `methodology.md`       | bloc grouping, the cohesion evidence, the orientation/inversion handling |

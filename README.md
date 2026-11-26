@@ -5,7 +5,7 @@ Council (Nationalrat) final vote (Schlussabstimmung)** and extracts **how each
 parliamentary group (Fraktion) voted** — the data in the bottom
 "Fraktion / Groupe / Gruppo" table of the roll-call PDFs.
 
-## TL;DR — how to run
+## TLDR — how to run
 
 ```bash
 pip install pdfplumber requests          # one-time

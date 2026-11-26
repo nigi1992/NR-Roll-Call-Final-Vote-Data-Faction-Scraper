@@ -32,9 +32,8 @@ absence, code as `NA`, not 0).
 
 ### Empirical justification (cohesion)
 Merges were checked against how often the constituent fractions vote the same
-way: R~L 97%, CVP~BDP 100%, CVP~M-E 91% (safe to merge); CVP~EVP only 66% (the
-one weak join — EVP/EDU diverges on value issues, but is folded in for caucus
-continuity as requested). glp is distinct (≤73% with any neighbour) → its own
+way: (the one weak join — EVP/EDU diverges on value issues, but is folded in for 
+caucus continuity as requested). glp is distinct (≤73% with any neighbour) → its own
 bloc.
 
 ## 2. Orientation — making "support" mean support of the proposal
